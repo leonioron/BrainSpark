@@ -1,0 +1,12 @@
+{
+	"appId": "com.brainspark.app",
+	"appName": "BrainSpark",
+	"webDir": "dist",
+	"backgroundColor": "#090D14",
+	"server": {
+		"androidScheme": "https"
+	},
+	"android": {
+		"backgroundColor": "#090D14"
+	}
+}

@@ -1,0 +1,59 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --app-safe-top: max(32px, env(safe-area-inset-top, 0px));
+  --app-safe-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+html,
+body,
+#root {
+  overflow-x: clip;
+  background-color: #090D14;
+  color: #F1F5F9;
+  font-family: var(--font-sans);
+  letter-spacing: 0.005em;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.font-mono-tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.h-safe-top {
+  height: var(--app-safe-top);
+}
+
+.top-safe-top {
+  top: var(--app-safe-top);
+}
+
+.pt-safe-top {
+  padding-top: var(--app-safe-top);
+}
+
+.pb-safe-bottom {
+  padding-bottom: var(--app-safe-bottom);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
