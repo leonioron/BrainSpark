@@ -4,6 +4,7 @@ import {
   Download,
   FileSpreadsheet,
   Minus,
+  Palette,
   Plus,
   Trash2,
   Upload,
@@ -13,7 +14,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { buildJsonBackupString } from '../services/portability';
-import type { BrainSparkData } from '../types/brainspark';
+import type { AppTheme, BrainSparkData } from '../types/brainspark';
 import { sanitizeDisplayName, validateDailyXpGoal } from '../utils/validation';
 
 interface ProfileViewProps {
@@ -22,6 +23,7 @@ interface ProfileViewProps {
     displayName?: string;
     dailyXpGoal?: number;
     soundEnabled?: boolean;
+    theme?: AppTheme;
   }) => void;
   onExportJson: () => void;
   onExportCsv: () => void;
@@ -29,6 +31,38 @@ interface ProfileViewProps {
   onResetAllData: () => void;
   onNotify: (text: string, tone?: 'success' | 'info' | 'warning' | 'error') => void;
 }
+
+const THEME_OPTIONS: {
+  id: AppTheme;
+  label: string;
+  desc: string;
+  swatches: [string, string, string];
+}[] = [
+  {
+    id: 'dark',
+    label: 'Escuro',
+    desc: 'Noturno + âmbar',
+    swatches: ['#090D14', '#121824', '#F59E0B'],
+  },
+  {
+    id: 'light',
+    label: 'Claro',
+    desc: 'Cinza retrô suave',
+    swatches: ['#C6D0DC', '#D8E0EA', '#B45309'],
+  },
+  {
+    id: 'colorful',
+    label: 'Arcade',
+    desc: 'Índigo + ciano neon',
+    swatches: ['#150C2E', '#22D3EE', '#EC4899'],
+  },
+  {
+    id: 'forest',
+    label: 'Selva',
+    desc: 'Verde + laranja 16-bit',
+    swatches: ['#183D22', '#22522F', '#FB923C'],
+  },
+];
 
 export function ProfileView({
   data,
@@ -87,7 +121,7 @@ export function ProfileView({
   return (
     <div className="mx-auto w-full max-w-4xl min-w-0 space-y-6 px-4 py-6 lg:px-6 lg:py-8">
       <div>
-        <h1 className="text-2xl font-extrabold text-slate-100 text-balance sm:text-3xl">
+        <h1 className="font-pixel text-xl font-extrabold text-slate-100 text-balance sm:text-2xl">
           Perfil & Backup de Dados
         </h1>
         <p className="mt-1.5 text-sm text-slate-400">
@@ -96,11 +130,11 @@ export function ProfileView({
       </div>
 
       {/* Preferências */}
-      <section className="space-y-6 rounded-3xl border border-white/8 bg-[#121824] p-5 sm:p-6">
+      <section className="pixel-panel space-y-6 p-5 sm:p-6">
         <div className="min-w-0">
           <label
             htmlFor="display-name-input"
-            className="block text-sm font-bold text-slate-100"
+            className="font-pixel block text-xs font-bold text-slate-100"
           >
             Nome de Exibição
           </label>
@@ -111,12 +145,12 @@ export function ProfileView({
               maxLength={28}
               value={nameInput}
               onChange={(e) => setNameInput(e.target.value)}
-              className="flex-1 min-w-0 w-0 min-h-[44px] rounded-xl border border-white/10 bg-[#090D14] px-3.5 text-sm text-slate-100 focus:border-amber-500 focus:outline-none"
+              className="pixel-inset flex-1 min-w-0 w-0 min-h-[44px] px-3.5 text-sm text-slate-100 focus:border-amber-500 focus:outline-none"
             />
             <button
               type="button"
               onClick={handleSaveName}
-              className="flex min-h-[44px] shrink-0 items-center gap-1.5 rounded-xl bg-amber-500 px-4 text-sm font-bold text-[#090D14] hover:bg-amber-400 whitespace-nowrap"
+              className="pixel-btn-primary flex min-h-[44px] shrink-0 items-center gap-1.5 px-4 font-pixel text-xs font-bold whitespace-nowrap"
             >
               <Check className="h-4 w-4" />
               <span>Salvar</span>
@@ -124,11 +158,11 @@ export function ProfileView({
           </div>
         </div>
 
-        <div className="min-w-0 border-t border-white/8 pt-5">
+        <div className="pixel-divider min-w-0 border-t-2 pt-5">
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <label
               htmlFor="daily-goal-input"
-              className="text-sm font-bold text-slate-100"
+              className="font-pixel text-xs font-bold text-slate-100"
             >
               Meta Diária de XP
             </label>
@@ -142,7 +176,7 @@ export function ProfileView({
               type="button"
               onClick={() => handleStepGoal(-10)}
               aria-label="Diminuir meta diária em 10 XP"
-              className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-xl border border-white/10 bg-[#090D14] text-slate-200 hover:bg-white/8"
+              className="pixel-btn-secondary flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center"
             >
               <Minus className="h-4 w-4" />
             </button>
@@ -159,14 +193,14 @@ export function ProfileView({
                 setGoalError(null);
               }}
               onBlur={handleGoalBlur}
-              className="flex-1 min-w-0 w-0 min-h-[44px] rounded-xl border border-white/10 bg-[#090D14] px-3 text-center text-base font-bold text-slate-100 font-mono-tabular focus:border-amber-500 focus:outline-none"
+              className="pixel-inset flex-1 min-w-0 w-0 min-h-[44px] px-3 text-center text-base font-bold text-slate-100 font-mono-tabular focus:border-amber-500 focus:outline-none"
             />
 
             <button
               type="button"
               onClick={() => handleStepGoal(10)}
               aria-label="Aumentar meta diária em 10 XP"
-              className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-xl border border-white/10 bg-[#090D14] text-slate-200 hover:bg-white/8"
+              className="pixel-btn-secondary flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center"
             >
               <Plus className="h-4 w-4" />
             </button>
@@ -178,10 +212,10 @@ export function ProfileView({
                 key={preset}
                 type="button"
                 onClick={() => applyGoalValue(preset)}
-                className={`min-h-[44px] rounded-xl border px-3.5 text-xs font-bold font-mono-tabular transition-colors whitespace-nowrap ${
+                className={`min-h-[44px] border-2 px-3.5 text-xs font-bold font-mono-tabular transition-colors whitespace-nowrap ${
                   profile.dailyXpGoal === preset
-                    ? 'border-amber-500 bg-amber-500/15 text-amber-400'
-                    : 'border-white/10 bg-[#090D14] text-slate-400 hover:text-slate-200'
+                    ? 'pixel-chip-active'
+                    : 'pixel-chip-idle'
                 }`}
               >
                 {preset} XP
@@ -194,11 +228,56 @@ export function ProfileView({
           )}
         </div>
 
-        <div className="flex min-w-0 items-center justify-between gap-4 border-t border-white/8 pt-5">
+        {/* Seletor de Tema */}
+        <div className="pixel-divider min-w-0 border-t-2 pt-5">
+          <div className="flex items-center gap-2">
+            <Palette className="h-4 w-4 text-amber-400 shrink-0" />
+            <p className="font-pixel text-xs font-bold text-slate-100">Tema de Cores</p>
+          </div>
+          <p className="mt-0.5 text-xs text-slate-400">
+            Personalize o estilo visual do BrainSpark
+          </p>
+
+          <div className="mt-3 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+            {THEME_OPTIONS.map((option) => {
+              const isSelected = (profile.theme || 'dark') === option.id;
+              return (
+                <button
+                  key={option.id}
+                  type="button"
+                  aria-pressed={isSelected}
+                  onClick={() => {
+                    onUpdateProfile({ theme: option.id });
+                    onNotify(`Tema "${option.label}" ativado.`, 'info');
+                  }}
+                  className={`flex min-h-[76px] flex-col items-start justify-between gap-2 border-2 border-b-4 p-3 text-left transition-all ${
+                    isSelected
+                      ? 'pixel-chip-active'
+                      : 'pixel-chip-idle'
+                  }`}
+                >
+                  <span className="font-pixel text-xs font-bold">{option.label}</span>
+                  <span className="flex items-center gap-1.5" aria-hidden="true">
+                    {option.swatches.map((hex, i) => (
+                      <span
+                        key={i}
+                        className="h-4 w-4 border border-black/45"
+                        style={{ backgroundColor: hex }}
+                      />
+                    ))}
+                  </span>
+                  <span className="text-[11px] leading-tight opacity-85">{option.desc}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="pixel-divider flex min-w-0 items-center justify-between gap-4 border-t-2 pt-5">
           <div className="min-w-0">
-            <p className="text-sm font-bold text-slate-100">Efeitos Sonoros</p>
-            <p className="text-xs text-slate-400">
-              Tons sintetizados durante os desafios (100% offline)
+            <p className="font-pixel text-xs font-bold text-slate-100">Efeitos Sonoros 16-Bit</p>
+            <p className="mt-0.5 text-xs text-slate-400">
+              Tons chiptune sintetizados durante os desafios (100% offline)
             </p>
           </div>
           <button
@@ -208,10 +287,10 @@ export function ProfileView({
             onClick={() => {
               onUpdateProfile({ soundEnabled: !profile.soundEnabled });
             }}
-            className={`flex min-h-[44px] shrink-0 items-center gap-2 rounded-xl border px-4 text-sm font-semibold transition-colors whitespace-nowrap ${
+            className={`flex min-h-[44px] shrink-0 items-center gap-2 border-2 px-4 font-pixel text-xs font-bold transition-colors whitespace-nowrap ${
               profile.soundEnabled
-                ? 'border-amber-500/40 bg-amber-500/15 text-amber-300'
-                : 'border-white/10 bg-[#090D14] text-slate-400'
+                ? 'pixel-chip-active'
+                : 'pixel-chip-idle'
             }`}
           >
             {profile.soundEnabled ? (
@@ -230,8 +309,8 @@ export function ProfileView({
       </section>
 
       {/* Portabilidade e Backup */}
-      <section className="rounded-3xl border border-white/8 bg-[#121824] p-5 sm:p-6">
-        <h2 className="text-base font-bold text-slate-100">
+      <section className="pixel-panel p-5 sm:p-6">
+        <h2 className="font-pixel text-sm font-bold text-slate-100">
           Exportar & Importar Dados
         </h2>
         <p className="mt-1 text-xs text-slate-400">
@@ -242,7 +321,7 @@ export function ProfileView({
           <button
             type="button"
             onClick={onExportJson}
-            className="flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-white/10 bg-[#090D14] px-4 text-sm font-semibold text-slate-100 hover:border-amber-500/40 hover:bg-[#192233] whitespace-nowrap"
+            className="pixel-btn-secondary flex min-h-[48px] items-center justify-center gap-2 px-4 text-sm font-semibold whitespace-nowrap"
           >
             <Download className="h-4 w-4 text-amber-400 shrink-0" />
             <span>Exportar Backup JSON</span>
@@ -251,7 +330,7 @@ export function ProfileView({
           <button
             type="button"
             onClick={onExportCsv}
-            className="flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-white/10 bg-[#090D14] px-4 text-sm font-semibold text-slate-100 hover:border-amber-500/40 hover:bg-[#192233] whitespace-nowrap"
+            className="pixel-btn-secondary flex min-h-[48px] items-center justify-center gap-2 px-4 text-sm font-semibold whitespace-nowrap"
           >
             <FileSpreadsheet className="h-4 w-4 text-emerald-400 shrink-0" />
             <span>Exportar Relatório CSV</span>
@@ -260,7 +339,7 @@ export function ProfileView({
           <button
             type="button"
             onClick={onOpenImportModal}
-            className="flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-white/10 bg-[#090D14] px-4 text-sm font-semibold text-slate-100 hover:border-amber-500/40 hover:bg-[#192233] whitespace-nowrap"
+            className="pixel-btn-secondary flex min-h-[48px] items-center justify-center gap-2 px-4 text-sm font-semibold whitespace-nowrap"
           >
             <Upload className="h-4 w-4 text-sky-400 shrink-0" />
             <span>Importar Backup JSON</span>
@@ -269,7 +348,7 @@ export function ProfileView({
           <button
             type="button"
             onClick={handleCopyJsonText}
-            className="flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-white/10 bg-[#090D14] px-4 text-sm font-semibold text-slate-100 hover:border-amber-500/40 hover:bg-[#192233] whitespace-nowrap"
+            className="pixel-btn-secondary flex min-h-[48px] items-center justify-center gap-2 px-4 text-sm font-semibold whitespace-nowrap"
           >
             <Copy className="h-4 w-4 text-slate-300 shrink-0" />
             <span>Copiar JSON de Backup</span>
@@ -288,10 +367,10 @@ export function ProfileView({
       </section>
 
       {/* Zona de Perigo */}
-      <section className="rounded-3xl border border-rose-500/20 bg-[#121824] p-5 sm:p-6">
+      <section className="pixel-danger-panel p-5 sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="min-w-0">
-            <h2 className="text-base font-bold text-rose-300">Zerar Todo o Progresso</h2>
+            <h2 className="font-pixel text-sm font-bold text-rose-300">Zerar Todo o Progresso</h2>
             <p className="mt-1 text-xs text-slate-400">
               Remove sessões, XP, ofensiva e Idade Mental do IndexedDB e localStorage.
             </p>
@@ -301,7 +380,7 @@ export function ProfileView({
             <button
               type="button"
               onClick={() => setConfirmReset(true)}
-              className="flex min-h-[44px] shrink-0 items-center gap-2 rounded-xl border border-rose-500/35 bg-rose-500/10 px-4 text-sm font-semibold text-rose-300 hover:bg-rose-500/20 whitespace-nowrap"
+              className="flex min-h-[44px] shrink-0 items-center gap-2 border-2 border-rose-500/60 bg-rose-500/15 px-4 font-pixel text-xs font-bold text-rose-300 hover:bg-rose-500/25 whitespace-nowrap"
             >
               <Trash2 className="h-4 w-4" />
               <span>Zerar Dados</span>
@@ -311,7 +390,7 @@ export function ProfileView({
               <button
                 type="button"
                 onClick={() => setConfirmReset(false)}
-                className="flex min-h-[44px] items-center justify-center rounded-xl border border-white/10 bg-[#090D14] px-4 text-sm font-semibold text-slate-300 whitespace-nowrap"
+                className="pixel-btn-secondary flex min-h-[44px] items-center justify-center px-4 text-xs font-semibold whitespace-nowrap"
               >
                 Cancelar
               </button>
@@ -321,7 +400,7 @@ export function ProfileView({
                   setConfirmReset(false);
                   onResetAllData();
                 }}
-                className="flex min-h-[44px] items-center justify-center rounded-xl bg-rose-600 px-4 text-sm font-bold text-white hover:bg-rose-500 whitespace-nowrap"
+                className="flex min-h-[44px] items-center justify-center border-2 border-rose-400 border-b-4 border-b-rose-900 bg-rose-600 px-4 font-pixel text-xs font-bold text-white hover:bg-rose-500 whitespace-nowrap"
               >
                 Confirmar Limpeza
               </button>
@@ -336,22 +415,22 @@ export function ProfileView({
           role="dialog"
           aria-modal="true"
           aria-label="Backup JSON bruto"
-          className="fixed inset-0 z-50 flex items-end justify-center bg-black/75 backdrop-blur-sm pt-safe-top sm:items-center sm:p-4"
+          className="fixed inset-0 z-50 flex items-end justify-center bg-black/80 backdrop-blur-xs pt-safe-top sm:items-center sm:p-4"
           onClick={() => setShowCopyJsonModal(false)}
         >
           <div
-            className="w-full max-w-lg min-w-0 rounded-t-3xl border border-white/10 bg-[#121824] p-6 shadow-2xl sm:rounded-3xl"
+            className="pixel-panel w-full max-w-lg min-w-0 p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start justify-between gap-3">
-              <h3 className="text-lg font-bold text-slate-100">
+              <h3 className="font-pixel text-base font-bold text-slate-100">
                 Texto JSON de Backup
               </h3>
               <button
                 type="button"
                 onClick={() => setShowCopyJsonModal(false)}
                 aria-label="Fechar inspetor JSON"
-                className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-xl text-slate-400 hover:bg-white/8 hover:text-slate-100"
+                className="pixel-btn-secondary flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -361,13 +440,13 @@ export function ProfileView({
               rows={8}
               value={buildJsonBackupString(data)}
               onFocus={(e) => e.currentTarget.select()}
-              className="mt-3 w-full min-w-0 rounded-2xl border border-white/10 bg-[#090D14] p-3 text-xs text-slate-300 font-mono-tabular focus:outline-none"
+              className="pixel-inset mt-3 w-full min-w-0 p-3 text-xs text-slate-300 font-mono-tabular focus:outline-none"
             />
             <div className="mt-4 flex justify-end gap-2">
               <button
                 type="button"
                 onClick={handleCopyJsonText}
-                className="flex min-h-[44px] items-center gap-2 rounded-xl bg-amber-500 px-4 text-sm font-bold text-[#090D14] hover:bg-amber-400 whitespace-nowrap"
+                className="pixel-btn-primary flex min-h-[44px] items-center gap-2 px-4 font-pixel text-xs font-bold whitespace-nowrap"
               >
                 <Copy className="h-4 w-4" />
                 <span>Copiar Texto</span>

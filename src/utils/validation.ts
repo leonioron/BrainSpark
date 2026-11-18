@@ -1,5 +1,5 @@
 import { DATA_SCHEMA_VERSION, INITIAL_DATA, SPARK_NODES } from '../data/catalog';
-import type { BrainSparkData, NodeProgress, SessionRecord } from '../types/brainspark';
+import type { AppTheme, BrainSparkData, NodeProgress, SessionRecord } from '../types/brainspark';
 import { computeEstimatedBrainAge } from './brainAge';
 
 export function sanitizeDisplayName(raw: string): string {
@@ -24,6 +24,7 @@ export function validateDailyXpGoal(value: number): { valid: boolean; clamped: n
 
 const VALID_MODES = new Set(['math', 'stroop', 'sequence', 'reflex', 'pairs', 'sudoku']);
 const VALID_DIFFICULTIES = new Set(['warmup', 'standard', 'blitz']);
+const VALID_THEMES = new Set<AppTheme>(['dark', 'light', 'colorful', 'forest']);
 const VALID_NODE_IDS = new Set(SPARK_NODES.map((n) => n.id));
 
 function isValidDateKey(value: unknown): value is string {
@@ -124,6 +125,9 @@ export function parseAndValidateBackupJson(rawText: string): {
       ),
       dailyXpGoal: goalCheck.clamped,
       soundEnabled: typeof rawProfile.soundEnabled === 'boolean' ? rawProfile.soundEnabled : true,
+      theme: VALID_THEMES.has(rawProfile.theme as AppTheme)
+        ? (rawProfile.theme as AppTheme)
+        : 'dark',
       currentStreak: Math.max(0, Math.round(Number(rawProfile.currentStreak) || 0)),
       longestStreak: Math.max(0, Math.round(Number(rawProfile.longestStreak) || 0)),
       lastActiveDate: isValidDateKey(rawProfile.lastActiveDate) ? rawProfile.lastActiveDate : null,
@@ -191,6 +195,7 @@ export function mergeBrainSparkData(
       displayName: current.profile.displayName || incoming.profile.displayName,
       dailyXpGoal: current.profile.dailyXpGoal,
       soundEnabled: current.profile.soundEnabled,
+      theme: current.profile.theme || incoming.profile.theme || 'dark',
       currentStreak: Math.max(current.profile.currentStreak, incoming.profile.currentStreak),
       longestStreak: Math.max(current.profile.longestStreak, incoming.profile.longestStreak),
       lastActiveDate: latestActive,

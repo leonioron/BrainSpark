@@ -2,7 +2,9 @@ export type GameMode = 'math' | 'stroop' | 'sequence' | 'reflex' | 'pairs' | 'su
 
 export type DifficultyTier = 'warmup' | 'standard' | 'blitz';
 
-export type AppTab = 'path' | 'practice' | 'stats' | 'profile';
+export type AppTab = 'path' | 'practice' | 'stats' | 'achievements' | 'profile';
+
+export type AppTheme = 'dark' | 'light' | 'colorful' | 'forest';
 
 export type GamePhase = 'COUNTDOWN' | 'PLAYING' | 'ROUND_SUMMARY';
 
@@ -76,6 +78,7 @@ export interface UserProfile {
   displayName: string;
   dailyXpGoal: number;
   soundEnabled: boolean;
+  theme: AppTheme;
   currentStreak: number;
   longestStreak: number;
   lastActiveDate: string | null; // Local YYYY-MM-DD

@@ -5,18 +5,142 @@
   --app-safe-top: max(32px, env(safe-area-inset-top, 0px));
   --app-safe-bottom: max(12px, env(safe-area-inset-bottom, 0px));
   --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-pixel: 'Silkscreen', 'JetBrains Mono', ui-monospace, monospace;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Tema Escuro (Padrão) */
+  --bs-canvas: #090D14;
+  --bs-surface: #121824;
+  --bs-surface-elevated: #172030;
+  --bs-inset: #090D14;
+  --bs-nav: rgba(13, 19, 29, 0.96);
+  --bs-border: #28354D;
+  --bs-divider: #233046;
+  --bs-shadow: #030508;
+  --bs-text-primary: #F1F5F9;
+  --bs-text-muted: #94A3B8;
+
+  --bs-btn-sec-bg: #172030;
+  --bs-btn-sec-hover: #1E2A3F;
+  --bs-btn-sec-border: #2E3D59;
+  --bs-btn-sec-bottom: #0E141F;
+  --bs-btn-sec-text: #E2E8F0;
+
+  --bs-btn-pri-bg: #F59E0B;
+  --bs-btn-pri-hover: #FBBF24;
+  --bs-btn-pri-border: #FCD34D;
+  --bs-btn-pri-bottom: #B45309;
+  --bs-btn-pri-text: #090D14;
+
+  --bs-chart-grid: rgba(255, 255, 255, 0.08);
+  --bs-chart-accent: #F59E0B;
+  --bs-chart-label: #CBD5E1;
+}
+
+/* Tema Claro (Cinza Retrô Suave sem branco estourado) */
+[data-theme="light"] {
+  --bs-canvas: #C5D0DD;
+  --bs-surface: #D7E0EB;
+  --bs-surface-elevated: #CBD5E2;
+  --bs-inset: #B8C4D4;
+  --bs-nav: rgba(209, 219, 231, 0.96);
+  --bs-border: #6D7F97;
+  --bs-divider: #95A5BA;
+  --bs-shadow: #526278;
+  --bs-text-primary: #0F172A;
+  --bs-text-muted: #334155;
+
+  --bs-btn-sec-bg: #C8D3E1;
+  --bs-btn-sec-hover: #BAC7D8;
+  --bs-btn-sec-border: #6D7F97;
+  --bs-btn-sec-bottom: #475569;
+  --bs-btn-sec-text: #0F172A;
+
+  --bs-btn-pri-bg: #F59E0B;
+  --bs-btn-pri-hover: #FBBF24;
+  --bs-btn-pri-border: #FDE68A;
+  --bs-btn-pri-bottom: #B45309;
+  --bs-btn-pri-text: #090D14;
+
+  --bs-chart-grid: rgba(15, 23, 42, 0.14);
+  --bs-chart-accent: #B45309;
+  --bs-chart-label: #1E293B;
+}
+
+/* Tema Colorido 1: Arcade Neon 16-Bit */
+[data-theme="colorful"] {
+  --bs-canvas: #150C2E;
+  --bs-surface: #23164B;
+  --bs-surface-elevated: #2F1F63;
+  --bs-inset: #110826;
+  --bs-nav: rgba(24, 13, 54, 0.96);
+  --bs-border: #6D4CC4;
+  --bs-divider: #482E91;
+  --bs-shadow: #090418;
+  --bs-text-primary: #F8FAFC;
+  --bs-text-muted: #C4B5FD;
+
+  --bs-btn-sec-bg: #2E1D61;
+  --bs-btn-sec-hover: #3B267A;
+  --bs-btn-sec-border: #825EE8;
+  --bs-btn-sec-bottom: #180E38;
+  --bs-btn-sec-text: #F8FAFC;
+
+  --bs-btn-pri-bg: #22D3EE;
+  --bs-btn-pri-hover: #67E8F9;
+  --bs-btn-pri-border: #CFFAFE;
+  --bs-btn-pri-bottom: #0E7490;
+  --bs-btn-pri-text: #090D14;
+
+  --bs-chart-grid: rgba(167, 139, 250, 0.18);
+  --bs-chart-accent: #22D3EE;
+  --bs-chart-label: #E9D5FF;
+}
+
+/* Tema Colorido 2: Selva 16-Bit (Verde + Laranja + Dourado, sem azul/roxo/preto) */
+[data-theme="forest"] {
+  --bs-canvas: #183D22;
+  --bs-surface: #22522F;
+  --bs-surface-elevated: #2B663B;
+  --bs-inset: #122E19;
+  --bs-nav: rgba(29, 71, 40, 0.96);
+  --bs-border: #488F5A;
+  --bs-divider: #356E44;
+  --bs-shadow: #0B1F11;
+  --bs-text-primary: #F7FEE7;
+  --bs-text-muted: #BEF264;
+
+  --bs-btn-sec-bg: #2A633A;
+  --bs-btn-sec-hover: #347847;
+  --bs-btn-sec-border: #55A66A;
+  --bs-btn-sec-bottom: #15361E;
+  --bs-btn-sec-text: #F7FEE7;
+
+  --bs-btn-pri-bg: #FB923C;
+  --bs-btn-pri-hover: #FDBA74;
+  --bs-btn-pri-border: #FED7AA;
+  --bs-btn-pri-bottom: #C2410C;
+  --bs-btn-pri-text: #140B04;
+
+  --bs-chart-grid: rgba(217, 249, 157, 0.16);
+  --bs-chart-accent: #FACC15;
+  --bs-chart-label: #ECFCCB;
 }
 
 html,
 body,
 #root {
   overflow-x: clip;
-  background-color: #090D14;
-  color: #F1F5F9;
+  background-color: var(--bs-canvas);
+  color: var(--bs-text-primary);
   font-family: var(--font-sans);
   letter-spacing: 0.005em;
   -webkit-tap-highlight-color: transparent;
+}
+
+.font-pixel {
+  font-family: var(--font-pixel);
+  letter-spacing: 0.02em;
 }
 
 .font-mono-tabular {
@@ -27,6 +151,337 @@ body,
 .tabular-nums {
   font-variant-numeric: tabular-nums;
 }
+
+/* Fundo sutil estilo grade 16-bit */
+.bg-pixel-grid {
+  background-color: var(--bs-canvas);
+  background-image:
+    radial-gradient(rgba(245, 158, 11, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 18px 18px, 100% 4px;
+}
+
+[data-theme="light"] .bg-pixel-grid {
+  background-image:
+    radial-gradient(rgba(15, 23, 42, 0.09) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.02) 1px, transparent 1px);
+}
+
+[data-theme="colorful"] .bg-pixel-grid {
+  background-image:
+    radial-gradient(rgba(34, 211, 238, 0.14) 1px, transparent 1px),
+    radial-gradient(rgba(244, 114, 182, 0.10) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 20px 20px, 20px 20px, 100% 4px;
+  background-position: 0 0, 10px 10px, 0 0;
+}
+
+[data-theme="forest"] .bg-pixel-grid {
+  background-image:
+    radial-gradient(rgba(250, 204, 21, 0.12) 1px, transparent 1px),
+    radial-gradient(rgba(251, 146, 60, 0.10) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 20px 20px, 20px 20px, 100% 4px;
+  background-position: 0 0, 10px 10px, 0 0;
+}
+
+/* Superfícies & Navegação por Tema */
+.pixel-safe-top {
+  background-color: var(--bs-canvas);
+}
+
+.pixel-header {
+  border-bottom: 2px solid var(--bs-border);
+  background-color: var(--bs-nav);
+}
+
+.pixel-bottom-nav {
+  border-top: 2px solid var(--bs-border);
+  background-color: var(--bs-nav);
+}
+
+.pixel-divider {
+  border-color: var(--bs-divider);
+}
+
+.pixel-divide > :not(:last-child) {
+  border-bottom: 2px solid var(--bs-divider);
+}
+
+.pixel-brand-badge {
+  background-color: var(--bs-btn-pri-bg);
+  border: 2px solid var(--bs-btn-pri-border);
+  color: var(--bs-btn-pri-text);
+  box-shadow: 2px 2px 0 0 var(--bs-shadow);
+}
+
+/* Painel 16-bit com borda dupla e sombra dura sem blur */
+.pixel-panel {
+  background-color: var(--bs-surface);
+  border: 2px solid var(--bs-border);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.06),
+    4px 4px 0 0 var(--bs-shadow);
+}
+
+.pixel-inset {
+  background-color: var(--bs-inset);
+  border: 2px solid var(--bs-divider);
+  box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.18);
+}
+
+.pixel-danger-panel {
+  background-color: var(--bs-surface);
+  border: 2px solid rgba(244, 63, 94, 0.55);
+  box-shadow: 4px 4px 0 0 var(--bs-shadow);
+}
+
+/* Barra de progresso segmentada estilo RPG 16-bit */
+.pixel-gauge-fill {
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 10px,
+    rgba(9, 13, 20, 0.34) 10px,
+    rgba(9, 13, 20, 0.34) 12px
+  );
+}
+
+/* Botões táteis estilo arcade 16-bit */
+.pixel-btn-primary {
+  background-color: var(--bs-btn-pri-bg);
+  color: var(--bs-btn-pri-text);
+  border: 2px solid var(--bs-btn-pri-border);
+  border-bottom-width: 4px;
+  border-bottom-color: var(--bs-btn-pri-bottom);
+  box-shadow: 2px 2px 0 0 var(--bs-shadow);
+}
+.pixel-btn-primary:hover:not(:disabled) {
+  background-color: var(--bs-btn-pri-hover);
+}
+.pixel-btn-primary:active:not(:disabled) {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+.pixel-btn-secondary {
+  background-color: var(--bs-btn-sec-bg);
+  color: var(--bs-btn-sec-text);
+  border: 2px solid var(--bs-btn-sec-border);
+  border-bottom-width: 4px;
+  border-bottom-color: var(--bs-btn-sec-bottom);
+  box-shadow: 2px 2px 0 0 var(--bs-shadow);
+}
+.pixel-btn-secondary:hover:not(:disabled) {
+  background-color: var(--bs-btn-sec-hover);
+}
+.pixel-btn-secondary:active:not(:disabled) {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+/* Estados interativos reutilizáveis */
+.pixel-chip-active {
+  border-color: var(--bs-btn-pri-bg);
+  background-color: rgba(245, 158, 11, 0.18);
+  color: #FCD34D;
+}
+[data-theme="light"] .pixel-chip-active {
+  border-color: #B45309;
+  background-color: #FDE68A;
+  color: #78350F;
+}
+[data-theme="colorful"] .pixel-chip-active {
+  border-color: #22D3EE;
+  background-color: rgba(34, 211, 238, 0.20);
+  color: #67E8F9;
+}
+[data-theme="forest"] .pixel-chip-active {
+  border-color: #FB923C;
+  background-color: rgba(251, 146, 60, 0.24);
+  color: #FED7AA;
+}
+
+.pixel-chip-idle {
+  border-color: var(--bs-divider);
+  background-color: var(--bs-inset);
+  color: var(--bs-text-muted);
+}
+.pixel-chip-idle:hover {
+  color: var(--bs-text-primary);
+}
+
+.pixel-node-locked {
+  border-color: var(--bs-divider);
+  border-bottom-color: var(--bs-shadow);
+  background-color: var(--bs-inset);
+  color: var(--bs-text-muted);
+}
+
+.pixel-node-idle {
+  border-color: var(--bs-border);
+  border-bottom-color: var(--bs-btn-sec-bottom);
+  background-color: var(--bs-surface-elevated);
+}
+
+.pixel-node-done {
+  border-color: #10B981;
+  border-bottom-color: #065F46;
+  background-color: var(--bs-surface-elevated);
+  color: #10B981;
+}
+
+.pixel-node-current {
+  border-color: var(--bs-btn-pri-border);
+  border-bottom-color: var(--bs-btn-pri-bottom);
+  background-color: var(--bs-btn-pri-bg);
+  color: var(--bs-btn-pri-text);
+}
+
+.pixel-tile-idle {
+  border-color: var(--bs-btn-sec-border);
+  border-bottom-color: var(--bs-btn-sec-bottom);
+  background-color: var(--bs-surface-elevated);
+}
+
+.pixel-card-back {
+  border-color: var(--bs-btn-sec-border);
+  border-bottom-color: var(--bs-btn-sec-bottom);
+  background-color: var(--bs-surface-elevated);
+}
+
+.pixel-card-revealed {
+  border-color: var(--bs-btn-pri-bg);
+  border-bottom-color: var(--bs-btn-pri-bottom);
+  background-color: var(--bs-surface);
+}
+
+.pixel-reflex-wait {
+  border-color: var(--bs-btn-sec-border);
+  border-bottom-color: var(--bs-btn-sec-bottom);
+  background-color: var(--bs-surface);
+  color: var(--bs-text-primary);
+}
+
+.pixel-bar-empty {
+  border-color: var(--bs-divider);
+  background-color: var(--bs-inset);
+}
+
+/* Ajustes globais de contraste para Tema Claro */
+[data-theme="light"] .text-slate-100 { color: #0F172A; }
+[data-theme="light"] .text-slate-200 { color: #1E293B; }
+[data-theme="light"] .text-slate-300 { color: #334155; }
+[data-theme="light"] .text-slate-400 { color: #475569; }
+[data-theme="light"] .text-slate-500 { color: #64748B; }
+[data-theme="light"] .text-slate-600 { color: #64748B; }
+[data-theme="light"] .text-amber-400 { color: #B45309; }
+[data-theme="light"] .text-amber-300 { color: #B45309; }
+[data-theme="light"] .text-emerald-400 { color: #047857; }
+[data-theme="light"] .text-emerald-300 { color: #047857; }
+[data-theme="light"] .text-sky-400 { color: #0369A1; }
+[data-theme="light"] .text-sky-300 { color: #0369A1; }
+[data-theme="light"] .text-rose-400 { color: #BE123C; }
+[data-theme="light"] .text-rose-300 { color: #BE123C; }
+[data-theme="light"] .text-violet-400 { color: #6D28D9; }
+[data-theme="light"] .text-cyan-400 { color: #0E7490; }
+
+/* Preservar cores explícitas em fundos escuros/saturados no Tema Claro */
+[data-theme="light"] .bg-rose-600 .text-rose-100,
+[data-theme="light"] .bg-rose-600.text-white { color: #FFFFFF; }
+[data-theme="light"] .pixel-node-current { color: #090D14; }
+[data-theme="light"] .pixel-btn-primary { color: #090D14; }
+
+/* Sudoku adaptado por tema */
+.pixel-sudoku-cell {
+  border-color: var(--bs-divider);
+  background-color: var(--bs-surface);
+}
+.pixel-sudoku-related {
+  border-color: var(--bs-divider);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+[data-theme="light"] .pixel-sudoku-related {
+  background-color: #B8C4D4;
+}
+[data-theme="colorful"] .pixel-sudoku-related {
+  background-color: rgba(139, 92, 246, 0.18);
+}
+[data-theme="forest"] .pixel-sudoku-related {
+  background-color: rgba(163, 230, 53, 0.14);
+}
+
+/* Botões Stroop legíveis nos 3 temas */
+.pixel-stroop-red {
+  border: 2px solid rgba(244, 63, 94, 0.75);
+  border-bottom-width: 4px;
+  border-bottom-color: #881337;
+  background-color: rgba(136, 19, 55, 0.55);
+  color: #FECDD3;
+  box-shadow: 2px 2px 0 0 var(--bs-shadow);
+}
+.pixel-stroop-blue {
+  border: 2px solid rgba(56, 189, 248, 0.75);
+  border-bottom-width: 4px;
+  border-bottom-color: #0C4A6E;
+  background-color: rgba(12, 74, 110, 0.55);
+  color: #BAE6FD;
+  box-shadow: 2px 2px 0 0 var(--bs-shadow);
+}
+.pixel-stroop-green {
+  border: 2px solid rgba(16, 185, 129, 0.75);
+  border-bottom-width: 4px;
+  border-bottom-color: #064E3B;
+  background-color: rgba(6, 78, 59, 0.55);
+  color: #A7F3D0;
+  box-shadow: 2px 2px 0 0 var(--bs-shadow);
+}
+.pixel-stroop-amber {
+  border: 2px solid rgba(245, 158, 11, 0.75);
+  border-bottom-width: 4px;
+  border-bottom-color: #78350F;
+  background-color: rgba(120, 53, 15, 0.55);
+  color: #FDE68A;
+  box-shadow: 2px 2px 0 0 var(--bs-shadow);
+}
+
+[data-theme="light"] .pixel-stroop-red {
+  background-color: #FFE4E6;
+  border-color: #E11D48;
+  border-bottom-color: #9F1239;
+  color: #881337;
+}
+[data-theme="light"] .pixel-stroop-blue {
+  background-color: #E0F2FE;
+  border-color: #0284C7;
+  border-bottom-color: #075985;
+  color: #0C4A6E;
+}
+[data-theme="light"] .pixel-stroop-green {
+  background-color: #D1FAE5;
+  border-color: #059669;
+  border-bottom-color: #065F46;
+  color: #064E3B;
+}
+[data-theme="light"] .pixel-stroop-amber {
+  background-color: #FEF3C7;
+  border-color: #D97706;
+  border-bottom-color: #92400E;
+  color: #78350F;
+}
+
+/* Ajustes de destaque no Tema Colorido (Arcade) e Selva */
+[data-theme="colorful"] .text-amber-400 { color: #FACC15; }
+[data-theme="colorful"] .text-amber-300 { color: #22D3EE; }
+[data-theme="colorful"] .text-slate-400 { color: #C4B5FD; }
+[data-theme="colorful"] .text-slate-500 { color: #A78BFA; }
+[data-theme="colorful"] .pixel-gauge-fill.bg-amber-500 { background-color: #EC4899; }
+
+[data-theme="forest"] .text-amber-400 { color: #FACC15; }
+[data-theme="forest"] .text-amber-300 { color: #FED7AA; }
+[data-theme="forest"] .text-slate-400 { color: #D9F99D; }
+[data-theme="forest"] .text-slate-500 { color: #A3E635; }
+[data-theme="forest"] .pixel-gauge-fill.bg-amber-500 { background-color: #FB923C; }
 
 .h-safe-top {
   height: var(--app-safe-top);

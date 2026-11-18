@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { AchievementsView } from './components/AchievementsView';
 import { BottomNav } from './components/BottomNav';
 import { GameArenaModal } from './components/GameArenaModal';
 import { ImportModal } from './components/ImportModal';
@@ -18,6 +19,7 @@ import {
 } from './services/storage';
 import type {
   AppTab,
+  AppTheme,
   BrainSparkData,
   DifficultyTier,
   GameMode,
@@ -75,6 +77,10 @@ export default function App() {
     },
     [],
   );
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = data.profile.theme || 'dark';
+  }, [data.profile.theme]);
 
   useEffect(() => {
     let active = true;
@@ -217,7 +223,12 @@ export default function App() {
   );
 
   const handleUpdateProfile = useCallback(
-    (updates: { displayName?: string; dailyXpGoal?: number; soundEnabled?: boolean }) => {
+    (updates: {
+      displayName?: string;
+      dailyXpGoal?: number;
+      soundEnabled?: boolean;
+      theme?: AppTheme;
+    }) => {
       persistUpdate((prev) => ({
         ...prev,
         profile: {
@@ -277,7 +288,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen w-full min-w-0 bg-[#090D14] text-slate-100 overflow-x-clip pb-24 lg:pb-10">
+    <div className="min-h-screen w-full min-w-0 bg-pixel-grid text-slate-100 overflow-x-clip pb-24 lg:pb-10">
       <TopNav
         activeTab={activeTab}
         onSelectTab={setActiveTab}
@@ -323,6 +334,8 @@ export default function App() {
             )}
 
             {activeTab === 'stats' && <StatsView data={data} />}
+
+            {activeTab === 'achievements' && <AchievementsView data={data} />}
 
             {activeTab === 'profile' && (
               <ProfileView

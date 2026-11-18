@@ -42,7 +42,6 @@ export function StatsView({ data }: StatsViewProps) {
     ...last7Days.map((key) => dailyXpMap.get(key) ?? 0),
   );
 
-  // Tendência recente de Idade Mental (até últimas 12 sessões)
   const trendSessions = sessions.slice(-12);
   const svgWidth = 420;
   const svgHeight = 140;
@@ -73,7 +72,7 @@ export function StatsView({ data }: StatsViewProps) {
   return (
     <div className="mx-auto w-full max-w-6xl min-w-0 space-y-6 px-4 py-6 lg:px-6 lg:py-8">
       <div>
-        <h1 className="text-2xl font-extrabold text-slate-100 text-balance sm:text-3xl">
+        <h1 className="font-pixel text-xl font-extrabold text-slate-100 text-balance sm:text-2xl">
           Status Cognitivo & Idade Mental
         </h1>
         <p className="mt-1.5 text-sm text-slate-400">
@@ -81,9 +80,9 @@ export function StatsView({ data }: StatsViewProps) {
         </p>
       </div>
 
-      {/* Grade de KPIs principais */}
+      {/* Grade de KPIs */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-        <div className="min-w-0 rounded-2xl border border-white/8 bg-[#121824] p-4 sm:p-5">
+        <div className="pixel-panel min-w-0 p-4 sm:p-5">
           <div className="flex items-center justify-between text-xs text-slate-400">
             <span>Idade Mental</span>
             <Brain className="h-4 w-4 text-amber-400 shrink-0" />
@@ -94,7 +93,7 @@ export function StatsView({ data }: StatsViewProps) {
           <p className="mt-1 text-xs text-slate-400">Meta ideal: 20 anos</p>
         </div>
 
-        <div className="min-w-0 rounded-2xl border border-white/8 bg-[#121824] p-4 sm:p-5">
+        <div className="pixel-panel min-w-0 p-4 sm:p-5">
           <div className="flex items-center justify-between text-xs text-slate-400">
             <span>Ofensiva</span>
             <Flame className="h-4 w-4 text-amber-400 shrink-0" />
@@ -107,7 +106,7 @@ export function StatsView({ data }: StatsViewProps) {
           </p>
         </div>
 
-        <div className="min-w-0 rounded-2xl border border-white/8 bg-[#121824] p-4 sm:p-5">
+        <div className="pixel-panel min-w-0 p-4 sm:p-5">
           <div className="flex items-center justify-between text-xs text-slate-400">
             <span>XP Total</span>
             <Zap className="h-4 w-4 text-sky-400 shrink-0" />
@@ -120,7 +119,7 @@ export function StatsView({ data }: StatsViewProps) {
           </p>
         </div>
 
-        <div className="min-w-0 rounded-2xl border border-white/8 bg-[#121824] p-4 sm:p-5">
+        <div className="pixel-panel min-w-0 p-4 sm:p-5">
           <div className="flex items-center justify-between text-xs text-slate-400">
             <span>Precisão</span>
             <Activity className="h-4 w-4 text-emerald-400 shrink-0" />
@@ -134,11 +133,11 @@ export function StatsView({ data }: StatsViewProps) {
 
       {/* Gráficos */}
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-        <section className="min-w-0 rounded-3xl border border-white/8 bg-[#121824] p-5 sm:p-6">
+        <section className="pixel-panel min-w-0 p-5 sm:p-6">
           <div className="flex items-baseline justify-between gap-2">
             <div>
-              <h2 className="text-base font-bold text-slate-100">Tendência da Idade Mental</h2>
-              <p className="text-xs text-slate-400">Valores menores indicam respostas mais rápidas e precisas</p>
+              <h2 className="font-pixel text-sm font-bold text-slate-100">Tendência da Idade Mental</h2>
+              <p className="mt-0.5 text-xs text-slate-400">Valores menores indicam respostas mais rápidas</p>
             </div>
             <span className="text-xs font-mono-tabular text-slate-400 shrink-0">
               Últimos {trendSessions.length}
@@ -146,7 +145,7 @@ export function StatsView({ data }: StatsViewProps) {
           </div>
 
           {trendSessions.length === 0 ? (
-            <div className="mt-6 flex h-36 items-center justify-center rounded-2xl border border-dashed border-white/10 bg-[#090D14] px-4 text-center text-sm text-slate-400">
+            <div className="pixel-inset mt-6 flex h-36 items-center justify-center px-4 text-center text-sm text-slate-400">
               Conclua seu primeiro treino para traçar a evolução da sua Idade Mental.
             </div>
           ) : (
@@ -157,36 +156,35 @@ export function StatsView({ data }: StatsViewProps) {
                 role="img"
                 aria-label="Gráfico de tendência da Idade Mental"
               >
-                <line x1={padX} y1={padY} x2={svgWidth - padX} y2={padY} stroke="rgba(255,255,255,0.06)" strokeDasharray="3 3" />
-                <line x1={padX} y1={svgHeight / 2} x2={svgWidth - padX} y2={svgHeight / 2} stroke="rgba(255,255,255,0.06)" strokeDasharray="3 3" />
-                <line x1={padX} y1={svgHeight - padY} x2={svgWidth - padX} y2={svgHeight - padY} stroke="rgba(255,255,255,0.06)" strokeDasharray="3 3" />
+                <line x1={padX} y1={padY} x2={svgWidth - padX} y2={padY} stroke="var(--bs-chart-grid)" strokeDasharray="4 4" />
+                <line x1={padX} y1={svgHeight / 2} x2={svgWidth - padX} y2={svgHeight / 2} stroke="var(--bs-chart-grid)" strokeDasharray="4 4" />
+                <line x1={padX} y1={svgHeight - padY} x2={svgWidth - padX} y2={svgHeight - padY} stroke="var(--bs-chart-grid)" strokeDasharray="4 4" />
 
                 {trendPoints.length > 1 && (
                   <polyline
                     fill="none"
-                    stroke="#F59E0B"
+                    stroke="var(--bs-chart-accent)"
                     strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
                     points={polylinePoints}
                   />
                 )}
 
                 {trendPoints.map((pt, i) => (
                   <g key={i}>
-                    <circle
-                      cx={pt.x}
-                      cy={pt.y}
-                      r="5"
-                      fill="#090D14"
-                      stroke="#F59E0B"
+                    <rect
+                      x={pt.x - 4}
+                      y={pt.y - 4}
+                      width="8"
+                      height="8"
+                      fill="var(--bs-canvas)"
+                      stroke="var(--bs-chart-accent)"
                       strokeWidth="2.5"
                     />
                     <text
                       x={pt.x}
                       y={pt.y - 10}
                       textAnchor="middle"
-                      fill="#CBD5E1"
+                      fill="var(--bs-chart-label)"
                       fontSize="10"
                       fontFamily="JetBrains Mono, monospace"
                     >
@@ -204,11 +202,11 @@ export function StatsView({ data }: StatsViewProps) {
           )}
         </section>
 
-        <section className="min-w-0 rounded-3xl border border-white/8 bg-[#121824] p-5 sm:p-6">
+        <section className="pixel-panel min-w-0 p-5 sm:p-6">
           <div className="flex items-baseline justify-between gap-2">
             <div>
-              <h2 className="text-base font-bold text-slate-100">Atividade de XP (7 dias)</h2>
-              <p className="text-xs text-slate-400">
+              <h2 className="font-pixel text-sm font-bold text-slate-100">Atividade de XP (7 dias)</h2>
+              <p className="mt-0.5 text-xs text-slate-400">
                 Meta diária: {profile.dailyXpGoal} XP (horário local)
               </p>
             </div>
@@ -217,7 +215,7 @@ export function StatsView({ data }: StatsViewProps) {
           <div className="mt-6 grid h-36 grid-cols-7 items-end gap-2">
             {last7Days.map((dayKey) => {
               const xp = dailyXpMap.get(dayKey) ?? 0;
-              const pct = Math.max(4, Math.round((xp / maxDailyXp) * 100));
+              const pct = Math.max(6, Math.round((xp / maxDailyXp) * 100));
               const metGoal = xp >= profile.dailyXpGoal;
               return (
                 <div
@@ -229,14 +227,14 @@ export function StatsView({ data }: StatsViewProps) {
                   </span>
                   <div className="flex w-full flex-1 items-end justify-center">
                     <div
-                      className={`w-full max-w-[32px] rounded-t-lg transition-all ${
+                      className={`w-full max-w-[30px] border-2 transition-all ${
                         xp === 0
-                          ? 'bg-white/6'
+                          ? 'pixel-bar-empty'
                           : metGoal
-                            ? 'bg-amber-500'
-                            : 'bg-amber-500/50'
+                            ? 'pixel-gauge-fill border-amber-300 bg-amber-500'
+                            : 'pixel-gauge-fill border-amber-500/50 bg-amber-500/60'
                       }`}
-                      style={{ height: `${xp === 0 ? 6 : pct}%` }}
+                      style={{ height: `${xp === 0 ? 8 : pct}%` }}
                     />
                   </div>
                   <span className="text-[11px] font-medium capitalize text-slate-400">
@@ -250,25 +248,22 @@ export function StatsView({ data }: StatsViewProps) {
       </div>
 
       {/* Pilares Cognitivos */}
-      <section className="rounded-3xl border border-white/8 bg-[#121824] p-5 sm:p-6">
-        <h2 className="text-base font-bold text-slate-100">Pilares Cognitivos</h2>
+      <section className="pixel-panel p-5 sm:p-6">
+        <h2 className="font-pixel text-sm font-bold text-slate-100">Pilares Cognitivos</h2>
         <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
           {domainStats.map((d) => {
             const accent = getModeAccentClasses(d.mode);
             return (
-              <div
-                key={d.mode}
-                className="min-w-0 rounded-2xl border border-white/8 bg-[#090D14] p-4"
-              >
+              <div key={d.mode} className="pixel-inset min-w-0 p-4">
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex min-w-0 items-center gap-3">
                     <div
-                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border ${accent.iconBox}`}
+                      className={`flex h-10 w-10 shrink-0 items-center justify-center border-2 ${accent.iconBox}`}
                     >
                       <ModeIcon mode={d.mode} className="h-5 w-5" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-bold text-slate-100 truncate">
+                      <p className="font-pixel text-xs font-bold text-slate-100 truncate">
                         {d.title}
                       </p>
                       <p className="text-xs text-slate-400 truncate">{d.domain}</p>
@@ -279,9 +274,9 @@ export function StatsView({ data }: StatsViewProps) {
                   </span>
                 </div>
 
-                <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-[#121824]">
+                <div className="pixel-inset mt-3 h-3.5 w-full overflow-hidden p-[1px]">
                   <div
-                    className={`h-full rounded-full ${accent.bar}`}
+                    className={`pixel-gauge-fill h-full ${accent.bar}`}
                     style={{ width: `${d.readinessScore}%` }}
                   />
                 </div>
@@ -298,9 +293,9 @@ export function StatsView({ data }: StatsViewProps) {
       </section>
 
       {/* Sessões Recentes: máximo 5 por página com paginação */}
-      <section className="rounded-3xl border border-white/8 bg-[#121824] p-5 sm:p-6">
+      <section className="pixel-panel p-5 sm:p-6">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h2 className="text-base font-bold text-slate-100">Sessões Recentes</h2>
+          <h2 className="font-pixel text-sm font-bold text-slate-100">Sessões Recentes</h2>
           {sessions.length > 0 && (
             <span className="text-xs text-slate-400 font-mono-tabular">
               Mostrando {paginatedSessions.length} de {sessions.length}
@@ -314,7 +309,7 @@ export function StatsView({ data }: StatsViewProps) {
           </p>
         ) : (
           <>
-            <div className="mt-4 divide-y divide-white/8">
+            <div className="pixel-divide mt-4">
               {paginatedSessions.map((s) => {
                 const def = GAME_CATALOG[s.mode];
                 const accent = getModeAccentClasses(s.mode);
@@ -325,7 +320,7 @@ export function StatsView({ data }: StatsViewProps) {
                   >
                     <div className="flex min-w-0 items-center gap-3">
                       <div
-                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border ${accent.iconBox}`}
+                        className={`flex h-9 w-9 shrink-0 items-center justify-center border-2 ${accent.iconBox}`}
                       >
                         <ModeIcon mode={s.mode} className="h-4 w-4" />
                       </div>
@@ -352,15 +347,15 @@ export function StatsView({ data }: StatsViewProps) {
             </div>
 
             {totalPages > 1 && (
-              <div className="mt-4 flex items-center justify-between gap-3 border-t border-white/8 pt-4">
+              <div className="pixel-divider mt-4 flex items-center justify-between gap-3 border-t-2 pt-4">
                 <button
                   type="button"
                   disabled={page <= 1}
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
-                  className="flex min-h-[44px] items-center gap-1.5 rounded-xl border border-white/10 bg-[#090D14] px-3.5 text-xs font-semibold text-slate-200 disabled:cursor-not-allowed disabled:opacity-40 hover:bg-white/8 whitespace-nowrap"
+                  aria-label="Página anterior"
+                  className="pixel-btn-secondary flex min-h-[44px] min-w-[44px] items-center justify-center disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  <ChevronLeft className="h-4 w-4" />
-                  <span>Anterior</span>
+                  <ChevronLeft className="h-5 w-5" />
                 </button>
 
                 <span className="text-xs font-semibold text-slate-400 font-mono-tabular">
@@ -371,10 +366,10 @@ export function StatsView({ data }: StatsViewProps) {
                   type="button"
                   disabled={page >= totalPages}
                   onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                  className="flex min-h-[44px] items-center gap-1.5 rounded-xl border border-white/10 bg-[#090D14] px-3.5 text-xs font-semibold text-slate-200 disabled:cursor-not-allowed disabled:opacity-40 hover:bg-white/8 whitespace-nowrap"
+                  aria-label="Próxima página"
+                  className="pixel-btn-secondary flex min-h-[44px] min-w-[44px] items-center justify-center disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  <span>Próxima</span>
-                  <ChevronRight className="h-4 w-4" />
+                  <ChevronRight className="h-5 w-5" />
                 </button>
               </div>
             )}

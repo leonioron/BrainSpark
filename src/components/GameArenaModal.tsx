@@ -83,25 +83,25 @@ const STROOP_COLORS: StroopColorDef[] = [
     id: 'red',
     label: 'VERMELHO',
     hex: '#F43F5E',
-    buttonClass: 'border-rose-500/40 bg-rose-500/15 text-rose-200 hover:bg-rose-500/25',
+    buttonClass: 'pixel-stroop-red active:translate-y-0.5 active:border-b-2',
   },
   {
     id: 'blue',
     label: 'AZUL',
-    hex: '#38BDF8',
-    buttonClass: 'border-sky-500/40 bg-sky-500/15 text-sky-200 hover:bg-sky-500/25',
+    hex: '#0EA5E9',
+    buttonClass: 'pixel-stroop-blue active:translate-y-0.5 active:border-b-2',
   },
   {
     id: 'green',
     label: 'VERDE',
     hex: '#10B981',
-    buttonClass: 'border-emerald-500/40 bg-emerald-500/15 text-emerald-200 hover:bg-emerald-500/25',
+    buttonClass: 'pixel-stroop-green active:translate-y-0.5 active:border-b-2',
   },
   {
     id: 'amber',
     label: 'ÂMBAR',
     hex: '#F59E0B',
-    buttonClass: 'border-amber-500/40 bg-amber-500/15 text-amber-200 hover:bg-amber-500/25',
+    buttonClass: 'pixel-stroop-amber active:translate-y-0.5 active:border-b-2',
   },
 ];
 
@@ -935,10 +935,10 @@ export function GameArenaModal({
       role="dialog"
       aria-modal="true"
       aria-label={`Arena de Treino: ${gameDef.title}`}
-      className="fixed inset-0 z-50 flex flex-col bg-[#090D14] pt-safe-top"
+      className="fixed inset-0 z-50 flex flex-col bg-pixel-grid pt-safe-top"
     >
-      {/* HUD Superior da Arena */}
-      <div className="mx-auto flex w-full max-w-2xl min-w-0 items-center justify-between gap-3 border-b border-white/8 px-4 py-3">
+      {/* HUD Superior da Arena 16-bit */}
+      <div className="pixel-header mx-auto flex w-full max-w-2xl min-w-0 items-center justify-between gap-3 px-4 py-3">
         <button
           type="button"
           onClick={() => {
@@ -946,23 +946,25 @@ export function GameArenaModal({
             onClose();
           }}
           aria-label="Sair da sessão"
-          className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-xl border border-white/10 bg-[#121824] text-slate-300 hover:bg-white/10 hover:text-white"
+          className="pixel-btn-secondary flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-md text-slate-300"
         >
           <X className="h-5 w-5" />
         </button>
 
         <div className="flex flex-1 min-w-0 flex-col gap-1.5 px-1">
           <div className="flex items-center justify-between gap-2 text-xs font-semibold text-slate-300">
-            <span className="truncate">{gameDef.title} · {tierConfig.label}</span>
-            <span className="font-mono-tabular text-slate-400 shrink-0">
+            <span className="font-pixel truncate text-[11px] uppercase text-slate-200">
+              {gameDef.title} · {tierConfig.label}
+            </span>
+            <span className="font-mono-tabular shrink-0 text-amber-300">
               {mode === 'pairs' || mode === 'sudoku'
                 ? `${roundIdx} / ${totalStepsCount}`
                 : `${Math.min(roundIdx + (phase === 'PLAYING' ? 1 : 0), totalStepsCount)} / ${totalStepsCount}`}
             </span>
           </div>
-          <div className="h-2 w-full overflow-hidden rounded-full bg-[#121824]">
+          <div className="pixel-inset h-3 w-full overflow-hidden rounded-sm p-[1px]">
             <div
-              className="h-full rounded-full bg-amber-500 transition-[width] duration-200"
+              className="pixel-gauge-fill h-full bg-amber-500 transition-[width] duration-200"
               style={{ width: `${progressPct}%` }}
             />
           </div>
@@ -972,7 +974,7 @@ export function GameArenaModal({
           type="button"
           onClick={onToggleSound}
           aria-label={soundEnabled ? 'Silenciar som' : 'Ativar som'}
-          className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-xl border border-white/10 bg-[#121824] text-slate-300 hover:bg-white/10 hover:text-white"
+          className="pixel-btn-secondary flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-md text-slate-300"
         >
           {soundEnabled ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5 text-slate-500" />}
         </button>
@@ -981,14 +983,14 @@ export function GameArenaModal({
       {/* Corpo Principal da Arena */}
       <div className="mx-auto flex w-full max-w-2xl min-w-0 flex-1 flex-col justify-center overflow-y-auto px-4 py-5 pb-safe-bottom">
         {phase === 'COUNTDOWN' && (
-          <div className="flex flex-col items-center justify-center text-center">
-            <div className={`flex h-16 w-16 items-center justify-center rounded-2xl border ${accent.iconBox}`}>
+          <div className="pixel-panel mx-auto flex w-full max-w-md flex-col items-center justify-center rounded-md px-6 py-8 text-center">
+            <div className={`flex h-16 w-16 items-center justify-center rounded-md border-2 ${accent.iconBox}`}>
               <ModeIcon mode={mode} className="h-8 w-8" />
             </div>
-            <p className="mt-5 text-sm font-medium text-slate-400">
+            <p className="font-pixel mt-5 text-[11px] uppercase text-amber-400">
               {gameDef.cognitiveDomain}
             </p>
-            <div className="mt-3 text-7xl font-extrabold tracking-tight text-amber-400 font-mono-tabular">
+            <div className="font-pixel mt-3 text-6xl font-bold tracking-tight text-amber-300">
               {countdown}
             </div>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-300">
@@ -999,26 +1001,26 @@ export function GameArenaModal({
 
         {phase === 'PLAYING' && (
           <div className="flex w-full min-w-0 flex-col gap-4">
-            <div className="flex items-center justify-between text-xs font-medium text-slate-400 font-mono-tabular">
+            <div className="pixel-inset flex items-center justify-between rounded-md px-3 py-2 text-xs font-semibold text-slate-300 font-mono-tabular">
               {mode === 'pairs' ? (
                 <span>
-                  Pares: {correctCount}/{pairsConfig.totalPairs} · Erros: {pairMistakes}/{pairsConfig.maxMistakes}
+                  PARES: {correctCount}/{pairsConfig.totalPairs} · ERROS: {pairMistakes}/{pairsConfig.maxMistakes}
                 </span>
               ) : mode === 'sudoku' ? (
                 <span>
-                  Preenchidas: {correctCount}/{sudokuPuzzle.emptyCount} · Erros: {sudokuMistakes}
+                  PREENCHIDAS: {correctCount}/{sudokuPuzzle.emptyCount} · ERROS: {sudokuMistakes}
                 </span>
               ) : (
-                <span>Acertos: {correctCount}</span>
+                <span>ACERTOS: {correctCount}</span>
               )}
-              <span>Média: {liveAvgMs !== null ? `${liveAvgMs}ms` : '—'}</span>
+              <span>MÉDIA: {liveAvgMs !== null ? `${liveAvgMs}ms` : '—'}</span>
             </div>
 
             {/* CÁLCULO RÁPIDO */}
             {mode === 'math' && (
-              <div className="flex flex-col gap-6">
-                <div className="flex min-h-[152px] flex-col items-center justify-center rounded-3xl border border-white/10 bg-[#121824] p-6 text-center">
-                  <span className="text-xs font-medium text-slate-400">
+              <div className="flex flex-col gap-5">
+                <div className="pixel-panel flex min-h-[152px] flex-col items-center justify-center rounded-md p-6 text-center">
+                  <span className="font-pixel text-[11px] uppercase text-amber-400">
                     Calcule rapidamente
                   </span>
                   <div className="mt-3 text-4xl font-extrabold tracking-tight text-slate-100 font-mono-tabular sm:text-5xl">
@@ -1037,7 +1039,7 @@ export function GameArenaModal({
                           `Resposta: ${mathPrompt.answer}`,
                         )
                       }
-                      className="flex min-h-[68px] items-center justify-center rounded-2xl border border-white/10 bg-[#121824] px-4 text-2xl font-bold text-slate-100 font-mono-tabular transition-transform hover:border-amber-500/50 hover:bg-[#192233] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                      className="pixel-btn-secondary flex min-h-[68px] items-center justify-center rounded-md px-4 text-2xl font-bold text-slate-100 font-mono-tabular hover:border-amber-400/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
                     >
                       {opt}
                     </button>
@@ -1048,10 +1050,10 @@ export function GameArenaModal({
 
             {/* FOCO STROOP */}
             {mode === 'stroop' && (
-              <div className="flex flex-col gap-6">
-                <div className="flex min-h-[164px] flex-col items-center justify-center rounded-3xl border border-white/10 bg-[#121824] p-6 text-center">
-                  <span className="text-xs font-medium text-slate-400">
-                    Toque na COR DA TINTA (ignore a palavra escrita)
+              <div className="flex flex-col gap-5">
+                <div className="pixel-panel flex min-h-[164px] flex-col items-center justify-center rounded-md p-6 text-center">
+                  <span className="font-pixel text-[10px] uppercase leading-relaxed text-slate-400">
+                    Toque na COR DA TINTA (ignore a palavra)
                   </span>
                   <div
                     className="mt-4 text-5xl font-extrabold tracking-wide sm:text-6xl select-none"
@@ -1072,7 +1074,7 @@ export function GameArenaModal({
                           `A tinta era ${stroopPrompt.inkColor.label}`,
                         )
                       }
-                      className={`flex min-h-[64px] items-center justify-center rounded-2xl border px-4 text-base font-bold tracking-wide transition-transform active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 ${c.buttonClass}`}
+                      className={`font-pixel flex min-h-[64px] items-center justify-center rounded-md px-4 text-sm font-bold tracking-wide transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 ${c.buttonClass}`}
                     >
                       {c.label}
                     </button>
@@ -1084,19 +1086,19 @@ export function GameArenaModal({
             {/* MEMÓRIA EM SEQUÊNCIA (WORKING MEMORY) */}
             {mode === 'sequence' && (
               <div className="flex flex-col items-center gap-5">
-                <div className="text-center">
-                  <p className="text-sm font-semibold text-slate-200">
+                <div className="pixel-inset rounded-md px-4 py-2 text-center">
+                  <p className="font-pixel text-xs uppercase text-slate-200">
                     {sequenceStage === 'SHOWING'
-                      ? `Observe a sequência (${sequenceTarget.length} passos)`
+                      ? `Observe (${sequenceTarget.length} passos)`
                       : sequenceStage === 'INPUT'
-                        ? `Repita a sequência (${sequenceInput.length}/${sequenceTarget.length})`
+                        ? `Repita (${sequenceInput.length}/${sequenceTarget.length})`
                         : maxSpanAchieved > 0
-                          ? `Maior alcance: ${maxSpanAchieved} passos`
+                          ? `Recorde: ${maxSpanAchieved} passos`
                           : 'Próxima sequência...'}
                   </p>
                 </div>
 
-                <div className="grid w-full max-w-[340px] grid-cols-3 gap-3">
+                <div className="pixel-panel grid w-full max-w-[340px] grid-cols-3 gap-3 rounded-md p-3">
                   {Array.from({ length: 9 }).map((_, tileIdx) => {
                     const isLit = litTile === tileIdx;
                     const tapOrder = sequenceInput.indexOf(tileIdx);
@@ -1108,12 +1110,12 @@ export function GameArenaModal({
                         disabled={sequenceStage !== 'INPUT'}
                         onClick={() => handleSequenceTileTap(tileIdx)}
                         aria-label={`Quadrado ${tileIdx + 1}`}
-                        className={`flex aspect-square min-h-[76px] items-center justify-center rounded-2xl border transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 ${
+                        className={`flex aspect-square min-h-[76px] items-center justify-center rounded-md border-2 border-b-4 transition-all duration-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 ${
                           isLit
-                            ? 'scale-[0.96] border-amber-200 bg-amber-400 ring-4 ring-amber-400/35 shadow-xl shadow-amber-500/40'
+                            ? 'translate-y-0.5 border-amber-200 border-b-amber-500 bg-amber-400 ring-4 ring-amber-400/35 shadow-[0_0_16px_rgba(245,158,11,0.65)]'
                             : wasTapped && sequenceStage === 'INPUT'
-                              ? 'border-emerald-400/60 bg-emerald-500/25'
-                              : 'border-white/10 bg-[#121824] hover:bg-[#192233]'
+                              ? 'border-emerald-400 border-b-emerald-800 bg-emerald-500/30'
+                              : 'pixel-tile-idle hover:border-amber-400/60'
                         }`}
                       />
                     );
@@ -1128,21 +1130,21 @@ export function GameArenaModal({
                 <button
                   type="button"
                   onClick={handleReflexTap}
-                  className={`flex min-h-[260px] w-full flex-col items-center justify-center rounded-3xl border p-6 text-center transition-colors duration-100 select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 ${
+                  className={`flex min-h-[260px] w-full flex-col items-center justify-center rounded-md border-2 border-b-[6px] p-6 text-center shadow-[4px_4px_0_0_var(--bs-shadow)] transition-colors duration-100 select-none active:translate-y-1 active:border-b-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 ${
                     reflexSignal === 'GO'
-                      ? 'border-amber-300 bg-amber-500 text-[#090D14]'
+                      ? 'border-amber-200 border-b-amber-700 bg-amber-500 text-[#090D14]'
                       : reflexSignal === 'NOGO'
-                        ? 'border-rose-400 bg-rose-600 text-white'
-                        : 'border-white/10 bg-[#121824] text-slate-200'
+                        ? 'border-rose-300 border-b-rose-900 bg-rose-600 text-white'
+                        : 'pixel-reflex-wait'
                   }`}
                 >
-                  <span className="text-2xl font-extrabold tracking-tight sm:text-3xl">
+                  <span className="font-pixel text-2xl font-bold tracking-tight sm:text-3xl">
                     {reflexMessage}
                   </span>
                   <span
-                    className={`mt-2 text-xs font-medium ${
+                    className={`mt-3 text-xs font-semibold ${
                       reflexSignal === 'GO'
-                        ? 'text-[#090D14]/80'
+                        ? 'text-[#090D14]/85'
                         : reflexSignal === 'NOGO'
                           ? 'text-rose-100'
                           : 'text-slate-400'
@@ -1184,18 +1186,18 @@ export function GameArenaModal({
                         disabled={card.matched || flippedIndices.includes(idx)}
                         onClick={() => handlePairCardTap(idx)}
                         aria-label={isRevealed ? `Carta ${card.pairId + 1}` : 'Carta virada'}
-                        className={`flex aspect-square min-h-[48px] w-full items-center justify-center rounded-2xl border transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 ${
+                        className={`flex aspect-square min-h-[48px] w-full items-center justify-center rounded-md border-2 border-b-4 shadow-[2px_2px_0_0_var(--bs-shadow)] transition-all duration-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 ${
                           card.matched
-                            ? 'border-emerald-500/45 bg-emerald-500/15'
+                            ? 'border-emerald-400/70 border-b-emerald-800 bg-emerald-500/20'
                             : isRevealed
-                              ? 'border-amber-400/70 bg-[#1B2436]'
-                              : 'border-white/10 bg-[#121824] hover:border-amber-500/40 hover:bg-[#192233] active:scale-[0.96]'
+                              ? 'pixel-card-revealed'
+                              : 'pixel-card-back hover:border-amber-500/55 active:translate-y-0.5 active:border-b-2'
                         }`}
                       >
                         {isRevealed ? (
                           <SymbolIcon className={`h-9 w-9 ${symbol.color}`} />
                         ) : (
-                          <HelpCircle className="h-6 w-6 text-slate-600" />
+                          <HelpCircle className="h-6 w-6 text-slate-500" />
                         )}
                       </button>
                     );
@@ -1208,7 +1210,7 @@ export function GameArenaModal({
             {mode === 'sudoku' && (
               <div className="flex flex-col items-center gap-4">
                 <div
-                  className={`grid w-full overflow-hidden rounded-2xl border-2 border-amber-500/45 bg-[#090D14] ${
+                  className={`grid w-full overflow-hidden rounded-md border-2 border-amber-500/60 bg-[var(--bs-canvas)] shadow-[4px_4px_0_0_var(--bs-shadow)] ${
                     sudokuPuzzle.gridSize === 4
                       ? 'max-w-[296px] grid-cols-4'
                       : 'max-w-[396px] grid-cols-9'
@@ -1240,20 +1242,20 @@ export function GameArenaModal({
                           type="button"
                           onClick={() => setSelectedCell([r, c])}
                           aria-label={`Linha ${r + 1} Coluna ${c + 1}`}
-                          className={`flex aspect-square min-h-[36px] items-center justify-center border-b border-r border-white/10 font-mono-tabular transition-colors focus-visible:outline-none ${
+                          className={`flex aspect-square min-h-[36px] items-center justify-center border-b border-r font-mono-tabular transition-colors focus-visible:outline-none ${
                             sudokuPuzzle.gridSize === 4 ? 'text-xl font-extrabold' : 'text-sm sm:text-base font-bold'
-                          } ${isBoxRight ? 'border-r-2 border-r-amber-500/45' : ''} ${
-                            isBoxBottom ? 'border-b-2 border-b-amber-500/45' : ''
+                          } ${isBoxRight ? 'border-r-2 border-r-amber-500/60' : ''} ${
+                            isBoxBottom ? 'border-b-2 border-b-amber-500/60' : ''
                           } ${
                             isErr
-                              ? 'bg-rose-500/35 text-rose-200'
+                              ? 'border-[var(--bs-divider)] bg-rose-500/35 text-rose-200'
                               : isSelected
-                                ? 'bg-amber-500/25 ring-2 ring-inset ring-amber-400 text-amber-200'
+                                ? 'border-[var(--bs-divider)] bg-amber-500/25 ring-2 ring-inset ring-amber-400 text-amber-300'
                                 : isSameNum
-                                  ? 'bg-amber-500/12 text-amber-300'
+                                  ? 'border-[var(--bs-divider)] bg-amber-500/15 text-amber-300'
                                   : isRelated
-                                    ? 'bg-white/[0.04]'
-                                    : 'bg-[#121824]'
+                                    ? 'pixel-sudoku-related'
+                                    : 'pixel-sudoku-cell'
                           } ${
                             isClue
                               ? 'text-slate-100'
@@ -1283,7 +1285,7 @@ export function GameArenaModal({
                       type="button"
                       disabled={!selectedCell || sudokuBoard[selectedCell[0]]?.[selectedCell[1]] !== null}
                       onClick={() => handleSudokuDigitInput(num)}
-                      className="flex min-h-[46px] items-center justify-center rounded-xl border border-white/10 bg-[#121824] text-base font-bold text-slate-100 font-mono-tabular hover:border-amber-500/50 hover:bg-[#1B2436] active:scale-[0.96] disabled:opacity-40"
+                      className="pixel-btn-secondary flex min-h-[46px] items-center justify-center rounded-md text-base font-bold text-slate-100 font-mono-tabular hover:border-amber-400/70 disabled:opacity-40"
                     >
                       {num}
                     </button>
@@ -1296,7 +1298,7 @@ export function GameArenaModal({
             <div className="flex min-h-[28px] items-center justify-center">
               {feedbackBanner && (
                 <div
-                  className={`flex items-center gap-1.5 text-sm font-semibold ${
+                  className={`font-pixel flex items-center gap-1.5 text-xs uppercase ${
                     feedbackBanner.ok ? 'text-emerald-400' : 'text-rose-400'
                   }`}
                 >
@@ -1313,7 +1315,7 @@ export function GameArenaModal({
         )}
 
         {phase === 'ROUND_SUMMARY' && completedSession && (
-          <div className="mx-auto w-full max-w-md min-w-0 rounded-3xl border border-white/10 bg-[#121824] p-6 text-center">
+          <div className="pixel-panel mx-auto w-full max-w-md min-w-0 rounded-md p-6 text-center">
             <div className="flex justify-center gap-2">
               {[1, 2, 3].map((idx) => {
                 const earnedStars = calculateStarRating(
@@ -1335,34 +1337,34 @@ export function GameArenaModal({
               })}
             </div>
 
-            <h2 className="mt-4 text-2xl font-extrabold text-slate-100 text-balance">
-              Sessão Concluída
+            <h2 className="font-pixel mt-4 text-xl font-bold uppercase text-slate-100 text-balance">
+              Fase Concluída
             </h2>
             <p className="mt-1 text-sm text-slate-400">
               {gameDef.title} · {tierConfig.label}
             </p>
 
             <div className="mt-6 grid grid-cols-2 gap-3 text-left">
-              <div className="rounded-2xl border border-white/8 bg-[#090D14] p-4">
-                <p className="text-xs text-slate-400">XP Ganho</p>
+              <div className="pixel-inset rounded-md p-4">
+                <p className="font-pixel text-[10px] uppercase text-slate-400">XP Ganho</p>
                 <p className="mt-1 text-2xl font-extrabold text-amber-400 font-mono-tabular">
                   +{completedSession.earnedXp}
                 </p>
               </div>
-              <div className="rounded-2xl border border-white/8 bg-[#090D14] p-4">
-                <p className="text-xs text-slate-400">Precisão</p>
+              <div className="pixel-inset rounded-md p-4">
+                <p className="font-pixel text-[10px] uppercase text-slate-400">Precisão</p>
                 <p className="mt-1 text-2xl font-extrabold text-emerald-400 font-mono-tabular">
                   {completedSession.accuracy}%
                 </p>
               </div>
-              <div className="rounded-2xl border border-white/8 bg-[#090D14] p-4">
-                <p className="text-xs text-slate-400">Reação Média</p>
+              <div className="pixel-inset rounded-md p-4">
+                <p className="font-pixel text-[10px] uppercase text-slate-400">Reação Média</p>
                 <p className="mt-1 text-2xl font-extrabold text-slate-100 font-mono-tabular">
                   {completedSession.avgReactionMs}ms
                 </p>
               </div>
-              <div className="rounded-2xl border border-white/8 bg-[#090D14] p-4">
-                <p className="text-xs text-slate-400">Idade Mental</p>
+              <div className="pixel-inset rounded-md p-4">
+                <p className="font-pixel text-[10px] uppercase text-slate-400">Idade Mental</p>
                 <p className="mt-1 text-2xl font-extrabold text-sky-400 font-mono-tabular">
                   {completedSession.brainAgeAfter}
                 </p>
@@ -1373,15 +1375,15 @@ export function GameArenaModal({
               <button
                 type="button"
                 onClick={handleRestart}
-                className="flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/4 px-4 text-sm font-semibold text-slate-200 hover:bg-white/8 whitespace-nowrap"
+                className="pixel-btn-secondary font-pixel flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-md px-3 text-xs font-bold uppercase whitespace-nowrap"
               >
                 <RotateCcw className="h-4 w-4" />
-                <span>Jogar Novamente</span>
+                <span>Repetir</span>
               </button>
               <button
                 type="button"
                 onClick={onClose}
-                className="flex min-h-[48px] flex-1 items-center justify-center rounded-xl bg-amber-500 px-4 text-sm font-bold text-[#090D14] hover:bg-amber-400 whitespace-nowrap"
+                className="pixel-btn-primary font-pixel flex min-h-[48px] flex-1 items-center justify-center rounded-md px-4 text-xs font-bold uppercase whitespace-nowrap"
               >
                 Continuar
               </button>

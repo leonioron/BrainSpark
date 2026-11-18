@@ -29,17 +29,17 @@ export function NodeBriefingModal({
       role="dialog"
       aria-modal="true"
       aria-labelledby="briefing-title"
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/75 backdrop-blur-sm pt-safe-top sm:items-center sm:p-4"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/80 backdrop-blur-xs pt-safe-top sm:items-center sm:p-4"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md min-w-0 rounded-t-3xl border border-white/10 bg-[#121824] p-6 shadow-2xl sm:rounded-3xl"
+        className="pixel-panel w-full max-w-md min-w-0 p-6"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4">
           <div className="flex min-w-0 items-center gap-3.5">
             <div
-              className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border ${accent.iconBox}`}
+              className={`flex h-12 w-12 shrink-0 items-center justify-center border-2 ${accent.iconBox}`}
             >
               <ModeIcon mode={node.mode} className="h-6 w-6" />
             </div>
@@ -49,7 +49,7 @@ export function NodeBriefingModal({
               </p>
               <h2
                 id="briefing-title"
-                className="text-xl font-bold text-slate-100 text-balance"
+                className="font-pixel mt-0.5 text-lg font-bold text-slate-100 text-balance"
               >
                 {node.order}. {node.title}
               </h2>
@@ -60,7 +60,7 @@ export function NodeBriefingModal({
             type="button"
             onClick={onClose}
             aria-label="Fechar resumo"
-            className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-xl text-slate-400 hover:bg-white/8 hover:text-slate-100"
+            className="pixel-btn-secondary flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center text-slate-300"
           >
             <X className="h-5 w-5" />
           </button>
@@ -70,7 +70,7 @@ export function NodeBriefingModal({
           {gameDef.instructions}
         </p>
 
-        <div className="mt-5 grid grid-cols-3 gap-3 border-y border-white/8 py-4 text-center">
+        <div className="pixel-inset mt-5 grid grid-cols-3 gap-3 p-3.5 text-center">
           <div className="min-w-0">
             <p className="text-xs text-slate-400">
               {node.mode === 'pairs' ? 'Pares' : node.mode === 'sudoku' ? 'Células' : 'Rodadas'}
@@ -80,7 +80,7 @@ export function NodeBriefingModal({
             </p>
           </div>
           <div className="min-w-0">
-            <p className="text-xs text-slate-400">Meta de Velocidade</p>
+            <p className="text-xs text-slate-400">Meta</p>
             <p className="mt-0.5 text-lg font-bold text-slate-100 font-mono-tabular">
               {tierConfig.targetMs}ms
             </p>
@@ -118,7 +118,7 @@ export function NodeBriefingModal({
           <button
             type="button"
             onClick={onClose}
-            className="flex min-h-[48px] flex-1 items-center justify-center rounded-xl border border-white/10 bg-white/4 px-4 text-sm font-semibold text-slate-300 hover:bg-white/8 whitespace-nowrap"
+            className="pixel-btn-secondary flex min-h-[48px] flex-1 items-center justify-center px-4 font-pixel text-xs font-bold whitespace-nowrap"
           >
             Cancelar
           </button>
@@ -126,14 +126,14 @@ export function NodeBriefingModal({
             type="button"
             disabled={isLocked}
             onClick={() => onStart(node)}
-            className={`flex min-h-[48px] flex-[1.6] items-center justify-center gap-2 rounded-xl px-5 text-sm font-bold transition-transform whitespace-nowrap ${
+            className={`flex min-h-[48px] flex-[1.6] items-center justify-center gap-2 px-5 font-pixel text-xs font-bold whitespace-nowrap ${
               isLocked
-                ? 'cursor-not-allowed bg-slate-800 text-slate-500'
-                : 'bg-amber-500 text-[#090D14] hover:bg-amber-400 active:scale-[0.98]'
+                ? 'pixel-chip-idle cursor-not-allowed border-2 opacity-60'
+                : 'pixel-btn-primary'
             }`}
           >
-            <Play className="h-4 w-4 fill-current" />
-            <span>{isLocked ? 'Conclua o anterior' : 'Iniciar Sessão'}</span>
+            <Play className="h-3.5 w-3.5 fill-current" />
+            <span>{isLocked ? 'Bloqueado' : 'Iniciar Fase'}</span>
           </button>
         </div>
       </div>

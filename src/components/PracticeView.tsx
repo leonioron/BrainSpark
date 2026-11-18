@@ -1,4 +1,4 @@
-import { Brain, BrainCircuit, Play, Zap } from 'lucide-react';
+import { Brain, Play, Zap } from 'lucide-react';
 import { useState } from 'react';
 import { GAME_CATALOG } from '../data/catalog';
 import type { DifficultyTier, GameMode, SessionRecord } from '../types/brainspark';
@@ -17,12 +17,19 @@ function DifficultyBrainIcon({ tier }: { tier: DifficultyTier }) {
     return <Brain className="h-6 w-6" />;
   }
   if (tier === 'standard') {
-    return <BrainCircuit className="h-6 w-6" />;
+    return (
+      <span className="relative inline-flex items-center justify-center pr-1.5 pt-1">
+        <Brain className="h-6 w-6" />
+        <Zap className="absolute -right-0.5 -top-0.5 h-3.5 w-3.5 fill-current text-amber-400" />
+      </span>
+    );
   }
   return (
-    <span className="relative inline-flex items-center justify-center">
+    <span className="relative inline-flex items-center justify-center px-2 pt-2">
       <Brain className="h-6 w-6" />
-      <Zap className="h-3.5 w-3.5 -ml-1.5 -mt-3 fill-current text-amber-300" />
+      <Zap className="absolute left-0 top-0 h-3 w-3 -rotate-12 fill-current text-amber-400" />
+      <Zap className="absolute left-1/2 -top-1 h-3.5 w-3.5 -translate-x-1/2 fill-current text-amber-300" />
+      <Zap className="absolute right-0 top-0 h-3 w-3 rotate-12 fill-current text-amber-400" />
     </span>
   );
 }
@@ -40,11 +47,11 @@ export function PracticeView({ sessions, onStartPractice }: PracticeViewProps) {
   return (
     <div className="mx-auto w-full max-w-6xl min-w-0 px-4 py-6 lg:px-6 lg:py-8">
       <div className="mb-6">
-        <h1 className="text-2xl font-extrabold text-slate-100 text-balance sm:text-3xl">
+        <h1 className="font-pixel text-xl font-extrabold text-slate-100 text-balance sm:text-2xl">
           Laboratório de Prática Livre
         </h1>
         <p className="mt-1.5 text-sm text-slate-400">
-          Escolha qualquer atividade cognitiva e intensidade para treinar velocidade, precisão e memória.
+          Escolha qualquer cartucho cognitivo e o nível de esforço mental para treinar velocidade e memória.
         </p>
       </div>
 
@@ -68,12 +75,12 @@ export function PracticeView({ sessions, onStartPractice }: PracticeViewProps) {
           return (
             <article
               key={mode}
-              className="flex min-w-0 flex-col justify-between rounded-3xl border border-white/8 bg-[#121824] p-6"
+              className="pixel-panel flex min-w-0 flex-col justify-between p-6"
             >
               <div className="min-w-0">
                 <div className="flex items-start gap-3.5">
                   <div
-                    className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border ${accent.iconBox}`}
+                    className={`flex h-12 w-12 shrink-0 items-center justify-center border-2 ${accent.iconBox}`}
                   >
                     <ModeIcon mode={mode} className="h-6 w-6" />
                   </div>
@@ -81,7 +88,7 @@ export function PracticeView({ sessions, onStartPractice }: PracticeViewProps) {
                     <p className="text-xs font-medium text-slate-400">
                       {def.cognitiveDomain}
                     </p>
-                    <h2 className="mt-0.5 text-xl font-bold text-slate-100">
+                    <h2 className="font-pixel mt-0.5 text-base font-bold text-slate-100 sm:text-lg">
                       {def.title}
                     </h2>
                   </div>
@@ -91,8 +98,8 @@ export function PracticeView({ sessions, onStartPractice }: PracticeViewProps) {
                   {def.shortDesc}
                 </p>
 
-                {/* Seletor de Dificuldade com ícones de cérebro */}
-                <div className="mt-5 grid grid-cols-3 gap-1.5 rounded-2xl bg-[#090D14] p-1.5">
+                {/* Seletor 16-bit de Dificuldade com ícones de cérebro */}
+                <div className="pixel-inset mt-5 grid grid-cols-3 gap-2 p-2">
                   {DIFFICULTIES.map((tier) => {
                     const isSelected = activeTier === tier;
                     const tierLabel = def.tiers[tier].label;
@@ -106,10 +113,10 @@ export function PracticeView({ sessions, onStartPractice }: PracticeViewProps) {
                         onClick={() =>
                           setSelectedTiers((prev) => ({ ...prev, [mode]: tier }))
                         }
-                        className={`flex min-h-[46px] items-center justify-center rounded-xl px-2 transition-colors ${
+                        className={`flex min-h-[46px] items-center justify-center border-2 border-b-4 transition-all ${
                           isSelected
-                            ? 'bg-[#1A2233] text-amber-400'
-                            : 'text-slate-400 hover:text-slate-200'
+                            ? 'pixel-chip-active'
+                            : 'pixel-chip-idle'
                         }`}
                       >
                         <DifficultyBrainIcon tier={tier} />
@@ -119,11 +126,11 @@ export function PracticeView({ sessions, onStartPractice }: PracticeViewProps) {
                 </div>
 
                 <p className="mt-3 text-xs text-slate-400">
-                  <span className="font-semibold text-slate-200">{tierConfig.label}</span> · {tierConfig.description} · Meta {tierConfig.targetMs}ms · +{tierConfig.baseXp} XP base
+                  <span className="font-semibold text-slate-200">{tierConfig.label}</span> · {tierConfig.description} · Meta {tierConfig.targetMs}ms · +{tierConfig.baseXp} XP
                 </p>
               </div>
 
-              <div className="mt-5 flex items-center justify-between gap-3 border-t border-white/8 pt-4">
+              <div className="pixel-divider mt-5 flex items-center justify-between gap-3 border-t-2 pt-4">
                 <div className="min-w-0 text-xs text-slate-400 font-mono-tabular">
                   {modeSessions.length > 0 ? (
                     <span>
@@ -137,9 +144,9 @@ export function PracticeView({ sessions, onStartPractice }: PracticeViewProps) {
                 <button
                   type="button"
                   onClick={() => onStartPractice(mode, activeTier)}
-                  className="flex min-h-[44px] shrink-0 items-center gap-2 rounded-xl bg-amber-500 px-4 text-sm font-bold text-[#090D14] transition-transform hover:bg-amber-400 active:scale-[0.98] whitespace-nowrap"
+                  className="pixel-btn-primary flex min-h-[44px] shrink-0 items-center gap-2 px-4 font-pixel text-xs font-bold whitespace-nowrap"
                 >
-                  <Play className="h-4 w-4 fill-current" />
+                  <Play className="h-3.5 w-3.5 fill-current" />
                   <span>Jogar</span>
                 </button>
               </div>

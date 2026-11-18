@@ -437,6 +437,7 @@ export const INITIAL_DATA: BrainSparkData = {
     displayName: 'Desafiante',
     dailyXpGoal: 60,
     soundEnabled: true,
+    theme: 'dark',
     currentStreak: 0,
     longestStreak: 0,
     lastActiveDate: null,

@@ -1,6 +1,6 @@
 /**
- * Lightweight Web Audio API chime synthesizer for tactile game feedback.
- * Zero external audio assets required; works 100% offline in Web and Android WebView.
+ * Sintetizador chiptune 16-bit leve via Web Audio API.
+ * Zero arquivos externos; funciona 100% offline na Web e no Android WebView.
  */
 
 let sharedCtx: AudioContext | null = null;
@@ -14,7 +14,7 @@ function getAudioContext(): AudioContext | null {
   }
   if (sharedCtx.state === 'suspended') {
     sharedCtx.resume().catch(() => {
-      // Ignore autoplay blocks until user gesture
+      // Ignora bloqueio até interação do usuário
     });
   }
   return sharedCtx;
@@ -23,8 +23,8 @@ function getAudioContext(): AudioContext | null {
 function playTone(
   freq: number,
   durationSec: number,
-  type: OscillatorType = 'sine',
-  gainPeak = 0.09,
+  type: OscillatorType = 'square',
+  gainPeak = 0.055,
   delaySec = 0,
 ): void {
   const ctx = getAudioContext();
@@ -38,7 +38,7 @@ function playTone(
   osc.frequency.setValueAtTime(freq, start);
 
   gain.gain.setValueAtTime(0.0001, start);
-  gain.gain.exponentialRampToValueAtTime(gainPeak, start + 0.012);
+  gain.gain.exponentialRampToValueAtTime(gainPeak, start + 0.008);
   gain.gain.exponentialRampToValueAtTime(0.0001, start + durationSec);
 
   osc.connect(gain);
@@ -51,33 +51,33 @@ function playTone(
 export const soundFx = {
   tick(enabled: boolean) {
     if (!enabled) return;
-    playTone(520, 0.07, 'sine', 0.06);
+    playTone(587.33, 0.055, 'square', 0.035);
   },
   go(enabled: boolean) {
     if (!enabled) return;
-    playTone(740, 0.1, 'triangle', 0.09);
+    playTone(880, 0.09, 'square', 0.05);
   },
   correct(enabled: boolean) {
     if (!enabled) return;
-    playTone(620, 0.08, 'sine', 0.08, 0);
-    playTone(880, 0.12, 'sine', 0.09, 0.055);
+    playTone(659.25, 0.065, 'square', 0.045, 0);
+    playTone(987.77, 0.11, 'square', 0.05, 0.05);
   },
   wrong(enabled: boolean) {
     if (!enabled) return;
-    playTone(240, 0.14, 'triangle', 0.09, 0);
-    playTone(190, 0.16, 'triangle', 0.08, 0.07);
+    playTone(220, 0.11, 'sawtooth', 0.045, 0);
+    playTone(164.81, 0.15, 'sawtooth', 0.045, 0.075);
   },
   tile(enabled: boolean, index: number) {
     if (!enabled) return;
     const scale = [392, 440, 493.88, 523.25, 587.33, 659.25, 739.99, 783.99, 880];
     const freq = scale[index % scale.length];
-    playTone(freq, 0.14, 'sine', 0.08);
+    playTone(freq, 0.12, 'triangle', 0.075);
   },
   complete(enabled: boolean) {
     if (!enabled) return;
-    playTone(523.25, 0.1, 'sine', 0.08, 0);
-    playTone(659.25, 0.1, 'sine', 0.08, 0.08);
-    playTone(783.99, 0.12, 'sine', 0.09, 0.16);
-    playTone(1046.5, 0.24, 'sine', 0.1, 0.24);
+    playTone(523.25, 0.08, 'square', 0.045, 0);
+    playTone(659.25, 0.08, 'square', 0.045, 0.075);
+    playTone(783.99, 0.09, 'square', 0.048, 0.15);
+    playTone(1046.5, 0.22, 'square', 0.055, 0.225);
   },
 };

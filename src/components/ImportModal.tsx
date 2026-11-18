@@ -56,18 +56,18 @@ export function ImportModal({
       role="dialog"
       aria-modal="true"
       aria-labelledby="import-modal-title"
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/75 backdrop-blur-sm pt-safe-top sm:items-center sm:p-4"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/80 backdrop-blur-xs pt-safe-top sm:items-center sm:p-4"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-lg min-w-0 rounded-t-3xl border border-white/10 bg-[#121824] p-6 shadow-2xl sm:rounded-3xl"
+        className="pixel-panel w-full max-w-lg min-w-0 p-6"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <h2
               id="import-modal-title"
-              className="text-lg font-bold text-slate-100"
+              className="font-pixel text-base font-bold text-slate-100"
             >
               Importar Backup BrainSpark
             </h2>
@@ -79,14 +79,14 @@ export function ImportModal({
             type="button"
             onClick={onClose}
             aria-label="Fechar modal de importação"
-            className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-xl text-slate-400 hover:bg-white/8 hover:text-slate-100"
+            className="pixel-btn-secondary flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
         <div className="mt-4">
-          <label className="flex min-h-[48px] w-full cursor-pointer items-center justify-center gap-2 rounded-2xl border border-dashed border-white/20 bg-[#090D14] px-4 py-3 text-sm font-semibold text-slate-200 hover:border-amber-500/50">
+          <label className="pixel-inset flex min-h-[48px] w-full cursor-pointer items-center justify-center gap-2 border-dashed px-4 py-3 text-sm font-semibold text-slate-200 hover:border-amber-500/60">
             <FileUp className="h-4 w-4 text-amber-400 shrink-0" />
             <span>Escolher Arquivo .json</span>
             <input
@@ -114,7 +114,7 @@ export function ImportModal({
             }}
             rows={5}
             placeholder='{"version": 1, "profile": {...}, "sessions": [...]}'
-            className="mt-1.5 w-full min-w-0 rounded-2xl border border-white/10 bg-[#090D14] p-3 text-xs text-slate-200 font-mono-tabular placeholder:text-slate-600 focus:border-amber-500 focus:outline-none"
+            className="pixel-inset mt-1.5 w-full min-w-0 p-3 text-xs text-slate-200 font-mono-tabular placeholder:text-slate-600 focus:border-amber-500 focus:outline-none"
           />
         </div>
 
@@ -124,27 +124,27 @@ export function ImportModal({
             <button
               type="button"
               onClick={() => setStrategy('merge')}
-              className={`min-h-[48px] rounded-xl border px-3 py-2 text-left transition-colors ${
+              className={`min-h-[48px] border-2 px-3 py-2 text-left transition-colors ${
                 strategy === 'merge'
-                  ? 'border-amber-500 bg-amber-500/15 text-amber-300'
-                  : 'border-white/10 bg-[#090D14] text-slate-300 hover:bg-white/5'
+                  ? 'pixel-chip-active'
+                  : 'pixel-chip-idle'
               }`}
             >
-              <span className="block text-xs font-bold">Mesclar Dados</span>
+              <span className="font-pixel block text-[11px] font-bold">Mesclar Dados</span>
               <span className="block text-[11px] text-slate-400">
-                Mantém atuais e soma novos treinos
+                Mantém atuais e soma novos
               </span>
             </button>
             <button
               type="button"
               onClick={() => setStrategy('replace')}
-              className={`min-h-[48px] rounded-xl border px-3 py-2 text-left transition-colors ${
+              className={`min-h-[48px] border-2 px-3 py-2 text-left transition-colors ${
                 strategy === 'replace'
-                  ? 'border-rose-500 bg-rose-500/15 text-rose-300'
-                  : 'border-white/10 bg-[#090D14] text-slate-300 hover:bg-white/5'
+                  ? 'border-rose-400 bg-rose-500/15 text-rose-300'
+                  : 'pixel-chip-idle'
               }`}
             >
-              <span className="block text-xs font-bold">Substituir Tudo</span>
+              <span className="font-pixel block text-[11px] font-bold">Substituir Tudo</span>
               <span className="block text-[11px] text-slate-400">
                 Sobrescreve o progresso atual
               </span>
@@ -160,16 +160,16 @@ export function ImportModal({
           <button
             type="button"
             onClick={onClose}
-            className="flex min-h-[48px] flex-1 items-center justify-center rounded-xl border border-white/10 bg-white/4 px-4 text-sm font-semibold text-slate-300 hover:bg-white/8 whitespace-nowrap"
+            className="pixel-btn-secondary flex min-h-[48px] flex-1 items-center justify-center px-4 font-pixel text-xs font-bold whitespace-nowrap"
           >
             Cancelar
           </button>
           <button
             type="button"
             onClick={handleApply}
-            className="flex min-h-[48px] flex-1 items-center justify-center rounded-xl bg-amber-500 px-4 text-sm font-bold text-[#090D14] hover:bg-amber-400 whitespace-nowrap"
+            className="pixel-btn-primary flex min-h-[48px] flex-1 items-center justify-center px-4 font-pixel text-xs font-bold whitespace-nowrap"
           >
-            {strategy === 'merge' ? 'Mesclar Backup' : 'Substituir Tudo'}
+            {strategy === 'merge' ? 'Mesclar' : 'Substituir'}
           </button>
         </div>
       </div>

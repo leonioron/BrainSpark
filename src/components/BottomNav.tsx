@@ -1,4 +1,4 @@
-import { BarChart3, Compass, Dumbbell, User } from 'lucide-react';
+import { BarChart3, Compass, Dumbbell, Trophy, User } from 'lucide-react';
 import type { AppTab } from '../types/brainspark';
 
 interface BottomNavProps {
@@ -14,6 +14,7 @@ const TABS: {
   { id: 'path', label: 'Trilha', icon: Compass },
   { id: 'practice', label: 'Prática', icon: Dumbbell },
   { id: 'stats', label: 'Status', icon: BarChart3 },
+  { id: 'achievements', label: 'Troféus', icon: Trophy },
   { id: 'profile', label: 'Perfil', icon: User },
 ];
 
@@ -21,9 +22,9 @@ export function BottomNav({ activeTab, onSelectTab }: BottomNavProps) {
   return (
     <nav
       aria-label="Navegação mobile"
-      className="fixed bottom-0 left-0 right-0 z-40 lg:hidden border-t border-white/10 bg-[#090D14]/95 backdrop-blur-md pb-safe-bottom"
+      className="pixel-bottom-nav fixed bottom-0 left-0 right-0 z-40 lg:hidden backdrop-blur-sm pb-safe-bottom"
     >
-      <div className="grid grid-cols-4 items-center px-2 pt-1">
+      <div className="grid w-full grid-cols-[repeat(5,minmax(0,1fr))] items-stretch pt-1">
         {TABS.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -33,14 +34,17 @@ export function BottomNav({ activeTab, onSelectTab }: BottomNavProps) {
               type="button"
               onClick={() => onSelectTab(tab.id)}
               aria-current={isActive ? 'page' : undefined}
-              className={`flex min-h-[48px] min-w-[44px] flex-col items-center justify-center gap-0.5 rounded-xl px-2 py-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/70 ${
+              className={`relative flex min-h-[50px] w-full min-w-0 flex-col items-center justify-center gap-1 px-1 py-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/70 ${
                 isActive
                   ? 'text-amber-400'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              <Icon className={`h-5 w-5 shrink-0 ${isActive ? 'stroke-[2.4]' : 'stroke-[1.9]'}`} />
-              <span className="text-[11px] font-semibold tracking-tight whitespace-nowrap">
+              {isActive && (
+                <span className="absolute top-0 h-0.5 w-7 bg-amber-400" />
+              )}
+              <Icon className={`h-5 w-5 shrink-0 ${isActive ? 'stroke-[2.5]' : 'stroke-[1.9]'}`} />
+              <span className="font-pixel w-full truncate text-center text-[9.5px] font-bold tracking-tight">
                 {tab.label}
               </span>
             </button>
